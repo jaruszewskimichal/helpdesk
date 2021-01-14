@@ -1,0 +1,21 @@
+@media(min-width: 0px){
+    .card.w-100, .container {
+        margin-top: 3%;
+    }
+    h1 {
+        text-align: center;
+        padding: 2%;
+    }
+    .button-center-position {
+        display: flex;
+        justify-content: center;
+    }
+    h4 {
+        padding: 20px;
+        text-align: center;
+        color: red;
+    }
+}
+@media(min-width: 500px){
+
+}
