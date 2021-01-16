@@ -14,17 +14,21 @@
     // filter przeksztalcajacy pobrane dane w bezpieczny string - aby unimozliwic sql injection
     $TicketName = filter_var($_REQUEST['TicketName'], FILTER_SANITIZE_STRING);
     $TicketDescription = filter_var($_REQUEST['TicketDescription'], FILTER_SANITIZE_STRING);
+    $Prio = $_REQUEST['Prio'];
     $userId = $_SESSION['IdCurrentUser'];
 
     $query =
-    "INSERT INTO tickets (Ticket_name, Ticket_description, Id_User)
-    VALUES ('$TicketName', '$TicketDescription', '$userId')";
+    "INSERT INTO tickets (Ticket_name, Ticket_description, Id_User, Prio)
+    VALUES ('$TicketName', '$TicketDescription', '$userId', '$Prio')";
 
     // jesli bedzie problem z dodaniem krotki do bazy, wtedy wyskakuje komunikat ze cos sie nie udalo
     (mysqli_query($connection, $query) and header('location: index.php?Main')) or die("Cos poszło nie tak, spróbuj później"); 
     $connection = null;
   }
 ?>
+
+
+
 <div class="container">
 
 
@@ -49,6 +53,12 @@
                     <input type="textfield" id="inputTicketDescription" class="form-control" placeholder="Opis"
                     name='TicketDescription' required>
                     </div>
+                    <label for="customRange2" class="form-label">Priorytet
+                    <input type="text" id="textInput" name='Prio' value="2" style='border:0; width:20' readonly>
+                    </label>
+                      <input type="range" class="form-range" min="1" max="3" id="customRange2" 
+                      onchange="updateTextInput(this.value);">
+                      
 
                     <button name='submit' type='submit' class="btn btn-primary">Dodaj</button>
                 </fieldset>
@@ -62,3 +72,8 @@
     </div>
 </div>
 
+<script>
+function updateTextInput(val) {
+    document.getElementById('textInput').value=val; 
+}
+</script>

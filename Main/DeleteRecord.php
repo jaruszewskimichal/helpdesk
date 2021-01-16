@@ -19,10 +19,29 @@ if (!$db_select) {
 // pobieramy z linku wartosc id konkretnego ticketu.
 $id = $_GET['id'];
 
+$query = "SELECT * FROM tickets WHERE Id_Tickets=$id";
+
+$result = mysqli_query($connection, $query) or die("Coś poszło nie tak");
+$countRow = mysqli_num_rows($result);
+
+if ($countRow > 0){
+  while ($row = mysqli_fetch_assoc($result)) { 
+      $rows[] = $row; 
+  } 
+  $ticketName = $rows[0]['Ticket_name'];
+  $ticketDescription = $rows[0]['Ticket_description'];
+  $IdUser = $rows[0]['Id_User'];
+}
+
 $query = "DELETE FROM tickets WHERE Id_Tickets=$id";
+mysqli_query($connection, $query) or die("Coś poszło nie tak");
+
+$query = "INSERT INTO ticketsarchiv (Id_Tickets, Ticket_name, Ticket_description, Id_User)
+VALUES ('$id', '$ticketName', '$ticketDescription', '$IdUser')";
 
 (mysqli_query($connection, $query) and header("Location: index.php?Main")) or die("Coś poszło nie tak");
 
-$connection = null;
+
+mysqli_close($connection);
 
 ?>
